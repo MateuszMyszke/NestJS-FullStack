@@ -29,24 +29,24 @@ model Password {
   userId String @unique
 }
 
-enum Category {
-  RPG
-  FPS
-  MMORPG
-  Sports
-  RTS
-  Platformer
-}
 
 model Product {
   id String @id @default(uuid())
   name String
-  category Category
+  category String
   information String
   price Int
+  gallery Images[]
   image String
   publisherId String
   publisher Publisher @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+}
+
+model Images {
+    id        String   @id @default(uuid())
+    image     String
+    product   Product  @relation(fields: [productId], references: [id])
+    productId String
 }
 
 model Publisher {
