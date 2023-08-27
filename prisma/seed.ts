@@ -182,5 +182,6 @@ async function seed_publisher() {
 }
 
 seed_publisher();
-seed_products();
 seed_images();
+seed_products();
+
