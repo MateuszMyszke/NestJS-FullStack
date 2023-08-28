@@ -11,15 +11,17 @@ const RegisterForm = () => {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
   const [status, setStatus] = useState(null);
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(login, password);
+    console.log(login, password, passwordRepeat);
 
     const fd = new FormData();
     fd.append('login', login);
     fd.append('password', password);
+    fd.append('passwordRepeat', passwordRepeat);
 
     const option = {
       method: 'POST',
@@ -28,7 +30,7 @@ const RegisterForm = () => {
     };
 
     setStatus('loading');
-    fetch(`${API_URL}/register`, option)
+    fetch(`${API_URL}/auth/register`, option)
       .then(res => {
         if(res.status === 201){
           setStatus('success');
@@ -90,6 +92,10 @@ const RegisterForm = () => {
       <div className={styles.dform}>
         <label>Password: </label>
         <TextInput value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter password" type="password"></TextInput>
+      </div>
+      <div className={styles.dform}>
+        <label>PasswordRepeat: </label>
+        <TextInput value={passwordRepeat} onChange={e => setPasswordRepeat(e.target.value)} placeholder="Enter passwordRepeat" type="password"></TextInput>
       </div>
       <Button type="submit" value="Submit">Submit</Button>
     </form>
