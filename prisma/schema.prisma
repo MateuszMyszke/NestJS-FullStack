@@ -34,7 +34,7 @@ model Product {
   id String @id @default(uuid())
   name String
   category String
-  information String
+  information String @db.Text
   price Int
   gallery Images[]
   image String
