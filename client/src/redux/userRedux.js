@@ -1,27 +1,36 @@
-import shortid from 'shortid';
+export const getUser = (state) => state.user;
 
-//selectors
-export const getUser = ({ user }) => user;
-export const getUserByLogin = ({ user }, login) => user.find((user) => user.login === login);
+const createActionName = (actionName) => `app/users/${actionName}`;
+const LOG_IN = createActionName('LOG_IN');
 
+export const logIn = (payload) => {
+  localStorage.setItem('loggedInUser', payload.login);
+  return {
+    type: LOG_IN,
+    payload,
+  };
+};
 
-// actions
-const createActionName = (actionName) => `app/products/${actionName}`;
-const ADD_USER = createActionName('LOG_IN');
-const LOG_OUT = createActionName('LOG_OUT');
+const SAVE_USER_TO_LOCAL_STORAGE = createActionName('SAVE_USER_TO_LOCAL_STORAGE');
+export const saveUserToLocalStorage = () => ({
+  type: SAVE_USER_TO_LOCAL_STORAGE,
+});
 
-// action creators
-export const addUser = (payload) => ({ type: ADD_USER, payload});
-export const logOut = () => ({ type: LOG_OUT });
+const initialState = {
+  login: localStorage.getItem('loggedInUser') || null,
+  request: { pending: false, error: null, success: false },
+};
 
-const userReducer = (statePart = [], action) => {
-  switch (action.type) {
-    case ADD_USER:
-      return [...statePart, { ...action.payload, id: shortid() }];
-    case LOG_OUT:
-      return null;
+const usersReducer = (statePart = initialState, action) => {
+  switch (action.type){
+    case LOG_IN:
+      return { ...statePart, login: action.payload.login};
+    case SAVE_USER_TO_LOCAL_STORAGE:
+      localStorage.setItem('loggedInUser', JSON.stringify(statePart.login));
+      return statePart;
     default:
       return statePart;
   }
 };
-export default userReducer;
+
+export default usersReducer;

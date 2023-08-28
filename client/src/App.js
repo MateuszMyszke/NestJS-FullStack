@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCart } from './redux/cartRedux';
 import Register from './components/pages/Register/Register';
+import Login from './components/pages/Login/Login';
+
 const App = () => {
   const [cartData, setcartData] = useState(
     JSON.parse(localStorage.getItem('cart')) || 0,
@@ -34,6 +36,7 @@ const App = () => {
           <Route path='/' element={<Home />}/>
           <Route path='*' element={<NotFound />}/>
           <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
         <Footer /> 
       </Container> 
