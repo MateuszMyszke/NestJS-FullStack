@@ -9,24 +9,28 @@ import Spinner from 'react-bootstrap/Spinner';
 
 const RegisterForm = () => {
 
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
   const [status, setStatus] = useState(null);
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(login, password, passwordRepeat);
+    console.log(email, password, passwordRepeat);
 
-    const fd = new FormData();
-    fd.append('login', login);
-    fd.append('password', password);
-    fd.append('passwordRepeat', passwordRepeat);
+    const requestData = {
+      email,
+      password,
+      passwordRepeat
+    }
 
     const option = {
       method: 'POST',
       credentials: 'include',
-      body: fd,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestData),
     };
 
     setStatus('loading');
@@ -86,8 +90,8 @@ const RegisterForm = () => {
       )}
 
       <div className={styles.dform}>
-        <label>Login: </label>
-        <TextInput value={login} onChange={e => setLogin(e.target.value)} placeholder="Enter login" type="text"></TextInput>
+        <label>Email: </label>
+        <TextInput value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter email" type="text"></TextInput>
       </div>
       <div className={styles.dform}>
         <label>Password: </label>
