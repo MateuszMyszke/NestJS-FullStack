@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
 
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState(null);
   const dispatch = useDispatch();
@@ -25,15 +25,15 @@ const LoginForm = () => {
         'Content-Type': 'application/json'
       },
       credentials: 'include',
-      body: JSON.stringify({ login, password })
+      body: JSON.stringify({ email, password })
     };
 
     setStatus('loading');
-    fetch(`${API_URL}/api/auth/login`, options)
+    fetch(`${API_URL}/auth/login`, options)
       .then(res =>{
-        if(res.status === 200){
+        if(res.status === 201){
           setStatus('success');
-          dispatch(logIn({ login }));
+          dispatch(logIn({ email }));
           setTimeout(() =>{
             navigate('/');
           }, 2000);
@@ -81,7 +81,7 @@ const LoginForm = () => {
       <div>
         <h1>Log in</h1>
         <label>Login:</label>
-        <TextInput value={login} onChange={e => setLogin(e.target.value)} placeholder="Enter login" type="text"></TextInput>
+        <TextInput value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter email" type="text"></TextInput>
       </div>
       <div>
         <label>Password:</label>
